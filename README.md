@@ -60,7 +60,7 @@ graph TD
     Schema_Reader -->|"3. Table metadata only"| Prompt_Builder
     Prompt_Builder -->|"4. Structured system prompt"| LLM_Client
     LLM_Client <--> RateLimit_Handler
-    LLM_Client -->|"5. JSON envelope: {kind, sql}"| SQL_Validator
+    LLM_Client -->|"5. JSON envelope with SQL"| SQL_Validator
     Table_Whitelist -.-> SQL_Validator
     
     SQL_Validator -->|"6. Validated read-only SELECT"| SQL_Executor
@@ -68,8 +68,8 @@ graph TD
     Northwind_DB -->|"8. Result rows & types"| SQL_Executor
 
     SQL_Executor --> Self_Repair
-    Self_Repair -- "Yes (Postgres Error)" -->|"Re-prompt with error feedback"| Prompt_Builder
-    Self_Repair -- "No (Success)" --> Chart_Engine
+    Self_Repair -->|"Yes: Retry with error feedback"| Prompt_Builder
+    Self_Repair -->|"No: Success"| Chart_Engine
     
     SQL_Executor -.->|"Audit trail"| Audit_Logger
     Chart_Engine --> Explainer
@@ -111,7 +111,7 @@ erDiagram
     }
 
     CUSTOMERS {
-        string customer_id PK "5-character code"
+        string customer_id PK
         string company_name
         string contact_name
         string country
