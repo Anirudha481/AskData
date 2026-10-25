@@ -1,0 +1,108 @@
+# schema_config.yml
+# Optional human-readable descriptions for tables and columns.
+# These are injected into the LLM prompt to improve SQL generation accuracy.
+# Add descriptions for any table or column that has a non-obvious meaning.
+
+tables:
+  categories:
+    description: "Product categories (e.g. Beverages, Condiments). Links to products."
+    columns:
+      category_id: "Primary key"
+      category_name: "Short name of the category"
+      description: "Long description of the category"
+
+  customers:
+    description: "Companies and individuals who place orders."
+    columns:
+      customer_id: "5-character unique customer code (e.g. ALFKI)"
+      company_name: "Name of the customer company"
+      contact_name: "Name of the primary contact person"
+      contact_title: "Job title of the contact"
+
+  employees:
+    description: "Staff members who handle orders and report to other employees."
+    columns:
+      employee_id: "Primary key"
+      reports_to: "employee_id of this employee's manager (self-referencing FK)"
+      hire_date: "Date the employee was hired"
+      birth_date: "Date of birth"
+
+  employee_territories:
+    description: "Junction table linking employees to the sales territories they cover."
+    columns:
+      employee_id: "FK to employees"
+      territory_id: "FK to territories"
+
+  order_details:
+    description: "Line items for each order: which product, quantity, price and discount."
+    columns:
+      order_id: "FK to orders"
+      product_id: "FK to products"
+      unit_price: "Price per unit at time of order (may differ from products.unit_price)"
+      quantity: "Number of units ordered"
+      discount: "Fractional discount applied (0.0 to 1.0, e.g. 0.05 = 5%)"
+
+  orders:
+    description: "Customer orders with shipping and date information."
+    columns:
+      order_id: "Primary key"
+      customer_id: "FK to customers"
+      employee_id: "FK to the employee who took the order"
+      order_date: "Date the order was placed"
+      required_date: "Date the customer requested delivery"
+      shipped_date: "Actual date the order was shipped (NULL if not yet shipped)"
+      ship_via: "FK to shippers (which shipping company was used)"
+      freight: "Shipping cost in dollars"
+      ship_country: "Destination country"
+
+  products:
+    description: "Items available for sale, with pricing and stock levels."
+    columns:
+      product_id: "Primary key"
+      product_name: "Name of the product"
+      supplier_id: "FK to suppliers"
+      category_id: "FK to categories"
+      unit_price: "Current selling price per unit"
+      units_in_stock: "Current inventory count"
+      units_on_order: "Units currently on order from the supplier"
+      discontinued: "1 if product is no longer sold, 0 if active"
+
+  shippers:
+    description: "Shipping companies used to deliver orders."
+    columns:
+      shipper_id: "Primary key"
+      company_name: "Name of the shipping company"
+
+  suppliers:
+    description: "Vendors who supply products to the company."
+    columns:
+      supplier_id: "Primary key"
+      company_name: "Name of the supplier"
+      country: "Country of the supplier"
+
+  territories:
+    description: "Geographic sales territories, grouped by region."
+    columns:
+      territory_id: "Primary key"
+      territory_description: "Name or description of the territory"
+      region_id: "FK to region"
+
+  region:
+    description: "Top-level geographic regions (e.g. Eastern, Western)."
+    columns:
+      region_id: "Primary key"
+      region_description: "Name of the region"
+
+  us_states:
+    description: "Reference table of US state names and abbreviations."
+    columns:
+      state_id: "Primary key"
+      state_name: "Full state name"
+      state_abbr: "Two-letter abbreviation"
+      state_region: "Region of the US"
+
+  customer_customer_demo:
+    description: "Junction table linking customers to customer demographic types."
+
+  customer_demographics:
+    description: "Customer demographic categories with descriptions."

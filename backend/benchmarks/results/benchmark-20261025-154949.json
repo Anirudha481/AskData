@@ -1,0 +1,227 @@
+{
+  "timestamp": "20261025-154949",
+  "total": 30,
+  "correct": 4,
+  "score": "4/30",
+  "median_latency_seconds": 0.4727871000068262,
+  "p95_latency_seconds": 1.303575769999588,
+  "failures": [
+    {
+      "id": 3,
+      "difficulty": "single-table",
+      "question": "Which products are discontinued?",
+      "generated_sql": "SELECT p.product_id, p.product_name FROM products AS p WHERE p.discontinued = 1 LIMIT 1000",
+      "reference_sql": "SELECT product_name FROM products WHERE discontinued = 1;",
+      "reason": "Generated and reference result sets differ.",
+      "reference_row_count": 10,
+      "generated_row_count": 10
+    },
+    {
+      "id": 6,
+      "difficulty": "single-table",
+      "question": "What is the most expensive product?",
+      "generated_sql": "SELECT product_id, product_name, unit_price FROM products ORDER BY unit_price DESC NULLS LAST LIMIT 1",
+      "reference_sql": "SELECT product_name, unit_price FROM products ORDER BY unit_price DESC LIMIT 1;",
+      "reason": "Generated and reference result sets differ.",
+      "reference_row_count": 1,
+      "generated_row_count": 1
+    },
+    {
+      "id": 7,
+      "difficulty": "single-table",
+      "question": "List all customers from Germany.",
+      "generated_sql": "SELECT * FROM customers WHERE country = 'Germany' LIMIT 1000",
+      "reference_sql": "SELECT company_name, contact_name FROM customers WHERE country = 'Germany';",
+      "reason": "Generated and reference result sets differ.",
+      "reference_row_count": 11,
+      "generated_row_count": 11
+    },
+    {
+      "id": 8,
+      "difficulty": "single-table",
+      "question": "How many products are currently out of stock (units in stock is zero)?",
+      "generated_sql": null,
+      "reference_sql": "SELECT COUNT(*) AS out_of_stock_count FROM products WHERE units_in_stock = 0;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6585, Requested 2274. Please try again in 6.4425s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 9,
+      "difficulty": "single-table",
+      "question": "What is the average unit price of all products?",
+      "generated_sql": null,
+      "reference_sql": "SELECT ROUND(AVG(unit_price)::numeric, 2) AS avg_price FROM products;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6516, Requested 2269. Please try again in 5.8875s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 10,
+      "difficulty": "single-table",
+      "question": "List all employee first and last names along with their titles.",
+      "generated_sql": null,
+      "reference_sql": "SELECT first_name, last_name, title FROM employees;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6451, Requested 2271. Please try again in 5.415s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 11,
+      "difficulty": "join-filter",
+      "question": "Which products belong to the 'Beverages' category?",
+      "generated_sql": null,
+      "reference_sql": "SELECT p.product_name, p.unit_price FROM products p JOIN categories c ON p.category_id = c.category_id WHERE c.category_name = 'Beverages';",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6387, Requested 2260. Please try again in 4.8525s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 12,
+      "difficulty": "join-filter",
+      "question": "List all orders placed by the customer 'ALFKI' (Alfreds Futterkiste).",
+      "generated_sql": null,
+      "reference_sql": "SELECT o.order_id, o.order_date, o.freight FROM orders o JOIN customers c ON o.customer_id = c.customer_id WHERE c.customer_id = 'ALFKI' ORDER BY o.order_date;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6328, Requested 2269. Please try again in 4.4775s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 13,
+      "difficulty": "join-filter",
+      "question": "Which orders were handled by employee 'Janet Leverling'?",
+      "generated_sql": null,
+      "reference_sql": "SELECT o.order_id, o.order_date, o.customer_id FROM orders o JOIN employees e ON o.employee_id = e.employee_id WHERE e.first_name = 'Janet' AND e.last_name = 'Leverling';",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6268, Requested 2260. Please try again in 3.96s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 14,
+      "difficulty": "join-filter",
+      "question": "What is the total freight cost for orders shipped via 'United Package'?",
+      "generated_sql": null,
+      "reference_sql": "SELECT SUM(o.freight) AS total_freight FROM orders o JOIN shippers s ON o.ship_via = s.shipper_id WHERE s.company_name = 'United Package';",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6207, Requested 2273. Please try again in 3.599999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 15,
+      "difficulty": "join-filter",
+      "question": "List all products supplied by suppliers from the USA.",
+      "generated_sql": null,
+      "reference_sql": "SELECT p.product_name, s.company_name AS supplier FROM products p JOIN suppliers s ON p.supplier_id = s.supplier_id WHERE s.country = 'USA';",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6149, Requested 2258. Please try again in 3.0525s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 16,
+      "difficulty": "join-filter",
+      "question": "How many orders were shipped to France?",
+      "generated_sql": null,
+      "reference_sql": "SELECT COUNT(*) AS orders_to_france FROM orders WHERE ship_country = 'France';",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6090, Requested 2256. Please try again in 2.594999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 17,
+      "difficulty": "join-filter",
+      "question": "Which customers have never placed an order?",
+      "generated_sql": null,
+      "reference_sql": "SELECT c.company_name, c.contact_name FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id WHERE o.order_id IS NULL;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6028, Requested 2267. Please try again in 2.2125s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 18,
+      "difficulty": "join-filter",
+      "question": "List products that are below the reorder threshold (units in stock less than 10) and not discontinued.",
+      "generated_sql": null,
+      "reference_sql": "SELECT product_name, units_in_stock, units_on_order FROM products WHERE units_in_stock < 10 AND discontinued = 0 ORDER BY units_in_stock;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 5969, Requested 2280. Please try again in 1.8675s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 19,
+      "difficulty": "join-filter",
+      "question": "Which orders were shipped late (shipped after the required date)?",
+      "generated_sql": null,
+      "reference_sql": "SELECT order_id, order_date, required_date, shipped_date FROM orders WHERE shipped_date > required_date;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 5908, Requested 2318. Please try again in 1.695s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 20,
+      "difficulty": "join-filter",
+      "question": "What products did order number 10248 contain?",
+      "generated_sql": null,
+      "reference_sql": "SELECT p.product_name, od.quantity, od.unit_price, od.discount FROM order_details od JOIN products p ON od.product_id = p.product_id WHERE od.order_id = 10248;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 5821, Requested 2315. Please try again in 1.02s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 21,
+      "difficulty": "join-filter",
+      "question": "List the top 5 customers by total number of orders placed.",
+      "generated_sql": null,
+      "reference_sql": "SELECT c.company_name, COUNT(o.order_id) AS order_count FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.company_name ORDER BY order_count DESC LIMIT 5;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 5756, Requested 2272. Please try again in 210ms. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 22,
+      "difficulty": "aggregation",
+      "question": "What is the total revenue per product category?",
+      "generated_sql": "SELECT c.category_name, SUM(od.unit_price * od.quantity * (1 - od.discount)) AS total_revenue FROM order_details AS od JOIN products AS p ON od.product_id = p.product_id JOIN categories AS c ON p.category_id = c.category_id GROUP BY c.category_name ORDER BY total_revenue DESC LIMIT 1000",
+      "reference_sql": "SELECT c.category_name, ROUND(SUM(od.unit_price * od.quantity * (1 - od.discount))::numeric, 2) AS total_revenue FROM order_details od JOIN products p ON od.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id GROUP BY c.category_name ORDER BY total_revenue DESC;",
+      "reason": "Generated and reference result sets differ.",
+      "reference_row_count": 8,
+      "generated_row_count": 8
+    },
+    {
+      "id": 23,
+      "difficulty": "aggregation",
+      "question": "Which employee generated the highest total revenue from orders they handled?",
+      "generated_sql": null,
+      "reference_sql": "SELECT e.first_name || ' ' || e.last_name AS employee_name, ROUND(SUM(od.unit_price * od.quantity * (1 - od.discount))::numeric, 2) AS total_revenue FROM orders o JOIN employees e ON o.employee_id = e.employee_id JOIN order_details od ON o.order_id = od.order_id GROUP BY e.first_name, e.last_name ORDER BY total_revenue DESC LIMIT 1;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7883, Requested 2271. Please try again in 16.155s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 24,
+      "difficulty": "aggregation",
+      "question": "What is the total number of orders and average freight cost per country of destination?",
+      "generated_sql": null,
+      "reference_sql": "SELECT ship_country, COUNT(*) AS order_count, ROUND(AVG(freight)::numeric, 2) AS avg_freight FROM orders GROUP BY ship_country ORDER BY order_count DESC;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7826, Requested 2275. Please try again in 15.7575s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 25,
+      "difficulty": "aggregation",
+      "question": "Show monthly order counts for the year 1997.",
+      "generated_sql": null,
+      "reference_sql": "SELECT EXTRACT(MONTH FROM order_date) AS month, COUNT(*) AS order_count FROM orders WHERE EXTRACT(YEAR FROM order_date) = 1997 GROUP BY month ORDER BY month;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7762, Requested 2316. Please try again in 15.585s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 26,
+      "difficulty": "aggregation",
+      "question": "What is the average order value (total line item revenue) per customer?",
+      "generated_sql": null,
+      "reference_sql": "SELECT c.company_name, ROUND(AVG(order_total)::numeric, 2) AS avg_order_value FROM customers c JOIN orders o ON c.customer_id = o.customer_id JOIN (SELECT order_id, SUM(unit_price * quantity * (1 - discount)) AS order_total FROM order_details GROUP BY order_id) ot ON o.order_id = ot.order_id GROUP BY c.company_name ORDER BY avg_order_value DESC;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7700, Requested 2274. Please try again in 14.805s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 27,
+      "difficulty": "aggregation",
+      "question": "Which product has been ordered the most times (by total quantity)?",
+      "generated_sql": null,
+      "reference_sql": "SELECT p.product_name, SUM(od.quantity) AS total_quantity FROM order_details od JOIN products p ON od.product_id = p.product_id GROUP BY p.product_name ORDER BY total_quantity DESC LIMIT 1;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7638, Requested 2261. Please try again in 14.2425s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 28,
+      "difficulty": "aggregation",
+      "question": "How many distinct customers placed orders each year?",
+      "generated_sql": null,
+      "reference_sql": "SELECT EXTRACT(YEAR FROM order_date) AS year, COUNT(DISTINCT customer_id) AS unique_customers FROM orders GROUP BY year ORDER BY year;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7572, Requested 2314. Please try again in 14.145s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 29,
+      "difficulty": "aggregation",
+      "question": "List the top 3 suppliers by total value of products they supply (unit price times units in stock).",
+      "generated_sql": null,
+      "reference_sql": "SELECT s.company_name, ROUND(SUM(p.unit_price * p.units_in_stock)::numeric, 2) AS stock_value FROM suppliers s JOIN products p ON s.supplier_id = p.supplier_id GROUP BY s.company_name ORDER BY stock_value DESC LIMIT 3;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7509, Requested 2326. Please try again in 13.7625s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    },
+    {
+      "id": 30,
+      "difficulty": "aggregation",
+      "question": "Which categories have more than 5 active (non-discontinued) products, and how many products does each have?",
+      "generated_sql": null,
+      "reference_sql": "SELECT c.category_name, COUNT(p.product_id) AS active_product_count FROM categories c JOIN products p ON c.category_id = p.category_id WHERE p.discontinued = 0 GROUP BY c.category_name HAVING COUNT(p.product_id) > 5 ORDER BY active_product_count DESC;",
+      "reason": "Pipeline returned HTTP 502, status=error: LLM call failed: Groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m5fcz79be92rk2bjms5e260c` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7452, Requested 2282. Please try again in 13.004999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+    }
+  ],
+  "report_path": "C:\\AskData\\backend\\benchmarks\\results\\benchmark-20261025-154949.json"
+}
